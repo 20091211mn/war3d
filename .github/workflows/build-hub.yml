@@ -28,7 +28,13 @@ jobs:
           echo "deb [signed-by=/usr/share/keyrings/Unity_Technologies_ApS.gpg] https://hub.unity3d.com/linux/repos/deb stable main" | sudo tee /etc/apt/sources.list.d/unityhub.list
           sudo apt-get update
           sudo apt-get install -y unityhub
-          ls -la /opt/unityhub || true
+          ls -la /opt || true
+          dpkg -L unityhub | head -n 20 || true
+          if [ ! -x /opt/unityhub/unityhub ]; then
+            echo "Hub binary missing, reinstalling package"
+            sudo apt-get install --reinstall -y unityhub
+          fi
+          ls -la /opt/unityhub
 
       - uses: RageAgainstThePixel/unity-setup@v2
         with:
