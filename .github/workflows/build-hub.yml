@@ -1,0 +1,47 @@
+name: Build Android APK (Unity Hub login)
+
+# Alternative to build.yml: activates the Personal license with Unity ID
+# email + password (no .ulf file). Needs secrets UNITY_USERNAME and UNITY_PASSWORD.
+# Will not work if the Unity account uses 2-step verification.
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet /opt/ghc /usr/local/share/boost /usr/local/lib/android
+          df -h /
+
+      - uses: actions/checkout@v4
+
+      - uses: RageAgainstThePixel/unity-setup@v2
+        with:
+          version-file: ProjectSettings/ProjectVersion.txt
+          build-targets: Android
+
+      - uses: buildalon/activate-unity-license@v2
+        with:
+          license: personal
+          username: ${{ secrets.UNITY_USERNAME }}
+          password: ${{ secrets.UNITY_PASSWORD }}
+
+      - name: Build APK
+        run: |
+          mkdir -p build/Android
+          "$UNITY_EDITOR_PATH" -batchmode -nographics -quit \
+            -projectPath "$GITHUB_WORKSPACE" \
+            -buildTarget Android \
+            -executeMethod BuildScript.BuildAndroid \
+            -customBuildPath "$GITHUB_WORKSPACE/build/Android" \
+            -customBuildName war3d \
+            -logFile -
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: war3d-apk
+          path: build/Android
