@@ -14,7 +14,7 @@
    - `UNITY_EMAIL` = بريد حساب Unity
    - `UNITY_PASSWORD` = كلمة مرور الحساب
 
-   طريقة الحصول على `.ulf` موضحة في صفحة GameCI: https://game.ci/docs/github/activation
+   الحصول على `.ulf`: ثبّت Unity Hub على كمبيوتر، سجّل الدخول، ثم Preferences ← Licenses ← Add ← Get a free personal license، وبعدها انسخ الملف `Unity_lic.ulf` (ويندوز: `C:\ProgramData\Unity\Unity_lic.ulf`)، ثم سجّل الخروج من Unity Hub. التفاصيل: https://game.ci/docs/github/activation
 3. ادخل تبويب **Actions → Build Android APK → Run workflow** (أو ارفع أي تعديل على `main`).
 4. بعد انتهاء البناء (حوالي 15–30 دقيقة في أول مرة) نزّل الـ Artifact باسم `war3d-apk` وثبّت ملف `war3d.apk` على جهازك (فعّل التثبيت من مصادر غير معروفة).
 
