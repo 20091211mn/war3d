@@ -5,6 +5,8 @@ name: Build Android APK (Unity Hub login)
 # Will not work if the Unity account uses 2-step verification.
 
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
 
 jobs:
